@@ -31,6 +31,11 @@ export const post: APIRoute = async (context) => {
 
   // @ts-ignore
   const response = await fetch(`${baseUrl}/v1/chat/completions`, initOptions) as Response
-
-  return new Response(parseOpenAIStream(response))
+  const headers = {
+    "Access-Control-Allow-Origin": "http://localhost:5173", // 允许来自 example.com 的跨域请求
+    "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS", // 允许的 HTTP 方法
+    "Access-Control-Allow-Headers": "Content-Type, Authorization", // 允许的请求头
+    "Access-Control-Allow-Credentials": "true", // 允许携带 cookie
+  };
+  return new Response(parseOpenAIStream(response), { headers });
 }
